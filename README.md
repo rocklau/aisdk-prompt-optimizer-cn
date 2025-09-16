@@ -1,9 +1,9 @@
-# AI Prompt Optimizer
+# AISDK Prompt Optimizer
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
-Transform your AI interactions with intelligent prompt optimization. Teach your AI, collect ideal samples, and generate optimized prompts using the powerful GEPA DSPy optimizer.
+Transform your AI interactions with intelligent prompt optimization. Teach your AI, collect ideal samples, and generate optimized prompts using the powerful AISDK Prompt Optimizer.
 
 **Fully Open Source** - Built by the team that created [Langtrace AI](https://langtrace.ai) and [Zest](https://heyzest.ai)
 
@@ -22,27 +22,49 @@ Learn more: [GEPA Documentation](https://dspy.ai/api/optimizers/GEPA/)
 
 1. **Start Conversation**: Begin chatting with the AI and teach it desired behaviors through examples
 2. **Mark Examples**: Save ideal conversation samples that represent perfect responses
-3. **Run Optimization**: Let GEPA DSPy analyze patterns and generate optimized prompts
+3. **Run Optimization**: Let AISDK Prompt Optimizer analyze patterns and generate optimized prompts
 4. **Deploy Results**: Use the optimized prompts in your applications
 
 ## Features
 
 - **Teach Your AI**: Guide your AI through interactive conversations and demonstrate the ideal responses you want to achieve
 - **Collect Ideal Samples**: Gather high-quality conversation examples that represent perfect AI behavior for your use case
-- **GEPA DSPy Optimizer**: Leverage advanced optimization algorithms to automatically generate and refine prompt candidates
+- **AISDK Prompt Optimizer**: Leverage advanced optimization algorithms to automatically generate and refine prompt candidates
 
 ## Quick Start
 
 ### Prerequisites
 - Node.js (18+ recommended)
 - `uv` package manager for Python
+- OpenAI API key
+- AI Gateway API key
+
+### Environment Setup
+
+Before running the application, you need to set up your environment variables:
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit the `.env` file and add your API keys:
+   ```bash
+   # Required: OpenAI API key for AI model access
+   OPENAI_API_KEY=your_actual_openai_api_key_here
+   
+   # Required: AI Gateway API key for prompt optimization
+   AI_GATEWAY_API_KEY=your_actual_ai_gateway_api_key_here
+   ```
+
+**Important**: Never commit your actual API keys to version control. The `.env` file is already included in `.gitignore`.
 
 ### Installation & Setup
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd axdspy-ai-sdk
+git clone https://github.com/Scale3-Labs/aisdk-prompt-optimizer
+cd aisdk-prompt-optimizer
 
 # Install dependencies
 npm install
