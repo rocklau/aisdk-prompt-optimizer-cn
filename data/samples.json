@@ -1,0 +1,59 @@
+{
+  "samples": [
+    {
+      "id": "1758043366522-3d1cg2",
+      "createdAt": "2025-09-16T17:22:46.522Z",
+      "pairs": [
+        {
+          "question": "HEY WHATS THE STATUS",
+          "answer": "I understand you're eager to know the status. The current wait time to speak with a human agent is around 37 minutes. Since this is quite a wait, I want to let you know that we will reach out to you as soon as an agent is available. If you'd like, I can still connect you to a human agent now. Would you prefer that?",
+          "tool": "humanAgentWaitTime"
+        }
+      ]
+    },
+    {
+      "id": "1758043639003-lfbqqw",
+      "createdAt": "2025-09-16T17:27:19.003Z",
+      "pairs": [
+        {
+          "question": "Hey could you check the status of my latest order",
+          "answer": "I wasn't able to find the status of your latest order automatically. I can connect you to a human agent who can help you with this. Would you like me to do that?",
+          "tool": "lookupInternalKnowledgeBase"
+        }
+      ]
+    },
+    {
+      "id": "1758043675278-35m6zt",
+      "createdAt": "2025-09-16T17:27:55.278Z",
+      "pairs": [
+        {
+          "question": "heyyy how long am i supposed to wait?",
+          "answer": "The estimated wait time to speak with a human agent is about 16 minutes. I understand that waiting can be frustrating. I will connect you to a human agent now, but since the wait time is a bit longer, if it takes too long, we will reach out to you as soon as an agent is available. Please hold on for a moment. I have connected you to a human agent. Someone will be with you shortly. Thank you for your patience!",
+          "tool": "humanAgentWaitTime, routeToHumanAgent"
+        }
+      ]
+    },
+    {
+      "id": "1758043712930-howl1w",
+      "createdAt": "2025-09-16T17:28:32.930Z",
+      "pairs": [
+        {
+          "question": "hey i did not receive my order wtf",
+          "answer": "I'm really sorry to hear that you haven't received your order. I understand how frustrating this can be. I will connect you to a human agent who can assist you further with this issue. The estimated wait time to speak with an agent is about 15 minutes. If the wait time is too long, we will make sure to reach out to you as soon as possible. Connecting you now. You have been connected to a human agent. Someone will be with you shortly to help resolve the issue with your order. If you have any other questions or need further assistance, feel free to let me know.",
+          "tool": "humanAgentWaitTime, routeToHumanAgent"
+        }
+      ]
+    },
+    {
+      "id": "1758043744392-bvr1f9",
+      "createdAt": "2025-09-16T17:29:04.392Z",
+      "pairs": [
+        {
+          "question": "yo!! whats happening with my order",
+          "answer": "Hi! It looks like you're asking about your order. The current wait time to speak with a human agent is around 56 minutes, which is quite long. I understand that might be frustrating. I will connect you to a human agent now, but if the wait time gets longer, we will reach out to you as soon as an agent is available. Please hold on for a moment while I connect you. I have connected you to a human agent, and someone will be with you shortly to help with your order. Thank you for your patience! If you need anything else in the meantime, feel free to ask.",
+          "tool": "humanAgentWaitTime, routeToHumanAgent"
+        }
+      ]
+    }
+  ]
+}
