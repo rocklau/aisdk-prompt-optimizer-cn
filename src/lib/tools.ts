@@ -1,39 +1,41 @@
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { generateText, tool } from "ai";
 import { promises as fs } from "fs";
 import path from "path";
 import { z } from "zod";
+import { createAIProvider } from "./provider";
 
 export const humanAgentWaitTime = tool({
-  description: "Estimate the current wait time to speak with a human agent.",
+  description: "估算当前与人工客服交谈的等待时间。",
   inputSchema: z.object({
     topic: z
       .string()
       .optional()
-      .describe("Optional topic to route to the right queue"),
+      .describe("可选主题，用于路由到正确的队列"),
   }),
   execute: async () => {
     const minutes = Math.floor(Math.random() * 61); // 0..60
-    return `Estimated wait time: ${minutes} minute${minutes === 1 ? "" : "s"}.`;
+    return `预计等待时间：${minutes} 分钟。`;
   },
 });
 
 export const routeToHumanAgent = tool({
-  description: "Route the conversation to a human agent.",
+  description: "将对话转接到人工客服。",
   inputSchema: z.object({
     urgency: z
       .enum(["low", "medium", "high"])
       .default("low")
-      .describe("Optional urgency level"),
+      .describe("可选紧急程度"),
   }),
   execute: async () => {
-    return "Successfully routed to a human agent. Someone will be with you shortly.";
+    return "已成功转接至人工客服。稍后将有人与您联系。";
   },
 });
 
 export const lookupInternalKnowledgeBase = tool({
-  description: "Look up an internal knowledge base for an answer.",
+  description: "在内部知识库中查找答案。",
   inputSchema: z.object({
-    query: z.string().min(1).describe("User question to search for"),
+    query: z.string().min(1).describe("用户要搜索的问题"),
   }),
   execute: async ({ query }: { query: string }) => {
     try {
@@ -41,25 +43,26 @@ export const lookupInternalKnowledgeBase = tool({
       const kb = await fs.readFile(kbPath, "utf-8");
 
       const prompt = [
-        "You are an internal support assistant.",
-        "Answer the user's question using ONLY the provided knowledge base context.",
-        "If the information is not present or not relevant, reply EXACTLY:",
-        '"No information found. Would you like me to find a human to respond to your query?"',
-        "\n--- Knowledge Base Context ---\n",
+        "您是内部支持助手。",
+        "仅使用提供的知识库上下文回答用户问题。",
+        "如果信息不存在或不相关，请准确回复：",
+        '"未找到信息。您希望我找个人工来回应您的查询吗?"',
+        "\n--- 知识库上下文 ---\n",
         kb,
-        "\n--- Question ---\n",
+        "\n--- 问题 ---\n",
         query,
-        "\n--- Answer ---",
+        "\n--- 答案 ---",
       ].join("\n");
 
+      const { provider, modelName } = createAIProvider();
       const { text } = await generateText({
-        model: "openai/gpt-4.1-mini",
+        model: provider(modelName),
         prompt,
       });
 
       return text.trim();
     } catch {
-      return "No information found. Would you like me to find a human to respond to your query?";
+      return "未找到信息。您希望我找个人工来回应您的查询吗?";
     }
   },
 });

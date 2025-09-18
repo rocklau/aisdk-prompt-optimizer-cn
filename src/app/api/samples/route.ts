@@ -114,7 +114,7 @@ export async function GET() {
       headers: { "Content-Type": "application/json" },
     });
   } catch {
-    return new Response(JSON.stringify({ error: "Failed to load samples" }), {
+    return new Response(JSON.stringify({ error: "加载样本失败" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
@@ -149,7 +149,7 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
+    const message = err instanceof Error ? err.message : "未知错误";
     return new Response(JSON.stringify({ error: message }), {
       status: 400,
       headers: { "Content-Type": "application/json" },

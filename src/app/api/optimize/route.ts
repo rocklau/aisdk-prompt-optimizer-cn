@@ -200,18 +200,18 @@ export async function POST(req: Request) {
       }
     }
 
-    console.log(`📊 Processing samples:`);
-    console.log(`   Total sessions: ${samples.samples.length}`);
-    console.log(`   Training examples: ${examples.length}`);
+    console.log(`📊 处理样本:`);
+    console.log(`   总对话数: ${samples.samples.length}`);
+    console.log(`   训练示例: ${examples.length}`);
     console.log(
-      `   Sample conversation:`,
+      `   示例对话:`,
       examples[0]?.conversationContext?.substring(0, 150) + "..."
     );
 
     if (examples.length === 0) {
       return new Response(
         JSON.stringify({
-          error: "Need at least one chat session to optimize",
+          error: "至少需要一个聊天会话才能进行优化",
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
@@ -225,15 +225,15 @@ export async function POST(req: Request) {
       const healthUrl = `${resolvedEndpoint.replace(/\/$/, "")}/health`;
       const healthRes = await fetch(healthUrl, { method: "GET" });
       if (healthRes.ok) {
-        console.log(`🩺 Python optimizer healthy at ${healthUrl}`);
+        console.log(`🩺 Python 优化器在以下位置健康: ${healthUrl}`);
       } else {
         console.log(
-          `⚠️ Python optimizer responded with status ${healthRes.status} at ${healthUrl}`
+          `⚠️ Python 优化器响应状态 ${healthRes.status} 于 ${healthUrl}`
         );
       }
     } catch (err) {
       console.log(
-        `⚠️ Could not reach Python optimizer at ${resolvedEndpoint}. Set OPTIMIZER_ENDPOINT and ensure the service is running. Error:`,
+        `⚠️ 无法连接到 Python 优化器于 ${resolvedEndpoint}。请设置 OPTIMIZER_ENDPOINT 并确保服务正在运行。错误:`,
         err
       );
     }
@@ -246,18 +246,18 @@ export async function POST(req: Request) {
       (ex) => !ex.toolsUsed || ex.toolsUsed.length === 0
     );
 
-    console.log(`📋 Training analysis for instruction generation:`);
-    console.log(`   Conversations with tools: ${toolUsageExamples.length}`);
-    console.log(`   Conversations without tools: ${nonToolExamples.length}`);
+    console.log(`📋 指令生成训练分析:`);
+    console.log(`   使用工具的对话: ${toolUsageExamples.length}`);
+    console.log(`   未使用工具的对话: ${nonToolExamples.length}`);
 
     if (toolUsageExamples.length > 0) {
       const allTools = toolUsageExamples.flatMap((ex) => ex.toolsUsed || []);
       const uniqueTools = [...new Set(allTools)];
-      console.log(`   Unique tools used: ${uniqueTools.join(", ")}`);
+      console.log(`   使用的唯一工具: ${uniqueTools.join(", ")}`);
     }
 
     // Call Python dspy.GEPA optimizer
-    console.log("🔄 Optimizing your AI program with dspy.GEPA...");
+    console.log("🔄 使用 dspy.GEPA 优化您的 AI 程序...");
     const resp = await fetch(
       `${resolvedEndpoint.replace(/\/$/, "")}/optimize`,
       {
@@ -285,7 +285,7 @@ export async function POST(req: Request) {
     }
     const result = await resp.json();
 
-    console.log(`✅ Done! dspy.GEPA optimization completed`);
+    console.log(`✅ 完成! dspy.GEPA 优化已完成`);
 
     // Extract from Python optimizer result
     const bestScore = result.bestScore !== undefined ? result.bestScore : -1;
@@ -294,10 +294,10 @@ export async function POST(req: Request) {
     )?.optimizedProgram?.instruction;
 
     // Check if result has the expected properties
-    console.log(`📊 GEPA result keys:`, Object.keys(result));
+    console.log(`📊 GEPA 结果键:`, Object.keys(result));
 
     if (bestScore >= 0) {
-      console.log(`✨ Best score found: ${bestScore.toFixed(3)}`);
+      console.log(`✨ 找到最佳分数: ${bestScore.toFixed(3)}`);
     }
 
     // No need to apply demos - we'll use them in the prompt directly via AI SDK
@@ -323,7 +323,7 @@ export async function POST(req: Request) {
         .map((demo, i) => `Example ${i + 1}:\n${JSON.stringify(demo, null, 2)}`)
         .join("\n\n")}`;
       promptParts.push(demoText);
-      console.log(`📚 Using ${optimizedDemos.length} optimized demos`);
+      console.log(`📚 使用 ${optimizedDemos.length} 个优化示例`);
     } else if (examples.length > 0) {
       const exampleText = `\n\nExamples:\n${examples
         .map(
@@ -334,7 +334,7 @@ export async function POST(req: Request) {
         )
         .join("\n\n")}`;
       promptParts.push(exampleText);
-      console.log(`📚 Using ${examples.length} original training examples`);
+      console.log(`📚 使用 ${examples.length} 个原始训练示例`);
     }
 
     // 3. Write the complete prompt
@@ -342,9 +342,9 @@ export async function POST(req: Request) {
     await writePrompt(fullPrompt);
 
     console.log(
-      `📝 Saved ${
-        instruction ? "optimized" : "fallback"
-      } instruction with examples to prompt.md`
+      `📝 已保存${
+        instruction ? "优化" : "回退"
+      }指令和示例到 prompt.md`
     );
 
     // Save the GEPA optimization result (use unified optimized program fields)
@@ -386,7 +386,7 @@ export async function POST(req: Request) {
       JSON.stringify(completeOptimization, null, 2),
       "utf8"
     );
-    console.log("✅ GEPA optimization saved to complete-optimization.json");
+    console.log("✅ GEPA 优化结果已保存到 complete-optimization.json");
 
     // Also save a versioned copy co-locating prompt and optimization result
     try {
@@ -413,15 +413,15 @@ export async function POST(req: Request) {
         "utf8"
       );
       console.log(
-        `🗃️  Saved versioned run at data/versions/${path.basename(versionPath)}`
+        `🗃️ 已保存版本化运行于 data/versions/${path.basename(versionPath)}`
       );
     } catch (e) {
-      console.log("⚠️ Failed to save versioned optimization run:", e);
+      console.log("⚠️ 保存版本化优化运行失败:", e);
     }
 
     return new Response(
       JSON.stringify({
-        message: "GEPA optimization completed",
+        message: "GEPA 优化完成",
         instruction,
         bestScore: bestScore,
         optimizer: "GEPA",
@@ -432,7 +432,7 @@ export async function POST(req: Request) {
       }
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
+    const message = err instanceof Error ? err.message : "未知错误";
     return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

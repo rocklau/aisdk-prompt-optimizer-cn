@@ -1,110 +1,108 @@
-## Product Knowledge Base
+## 产品知识库
 
-This document contains internal reference information that agents and tools can use to answer common customer questions. Content is fictional but consistent.
+本文档包含客服和工具可以用来回答常见客户问题的内部参考信息。内容是虚构的但保持一致。
 
-### Plans and Pricing
+### 套餐和定价
 
-- **Free**: $0/mo
-  - 5 projects, 2 seats, 10K requests/mo, community support
-- **Pro**: $29/mo per workspace
-  - Unlimited projects, 10 seats, 1M requests/mo, email support, rate limit: 50 rps
-- **Business**: $99/mo per workspace
-  - Unlimited projects, 50 seats, 20M requests/mo, priority support, SSO, rate limit: 250 rps
-- **Enterprise**: Custom pricing
-  - Unlimited seats, unlimited requests (fair use), dedicated support, SOC 2 Type II, custom SLAs
+- **免费版**: 0美元/月
+  - 5个项目，2个席位，每月1万次请求，社区支持
+- **专业版**: 每工作区29美元/月
+  - 无限制项目，10个席位，每月100万次请求，邮件支持，速率限制：50次/秒
+- **商业版**: 每工作区99美元/月
+  - 无限制项目，50个席位，每月2000万次请求，优先支持，单点登录，速率限制：250次/秒
+- **企业版**: 定制价格
+  - 无限制席位，无限制请求（合理使用），专属支持，SOC 2 Type II，定制SLA
 
-Billing is monthly by default; annual billing receives a 15% discount.
+默认按月计费；年付可享受15%折扣。
 
-### Trials and Discounts
+### 试用和折扣
 
-- 14‑day Pro trial available once per workspace; no credit card required.
-- Educational and nonprofit discounts: 30% off Pro/Business upon approval.
-- Startups under 2 years old and <$1M funding: 25% off Business for 12 months.
+- 每个工作区可享受一次14天专业版试用；无需信用卡。
+- 教育和非营利组织折扣：经批准后专业版/商业版享受30%折扣。
+- 成立不满2年且融资少于100万美元的初创公司：商业版可享受25%折扣，为期12个月。
 
-### Usage Limits and Overages
+### 使用限制和超量费用
 
-- Soft limits per plan listed above; overages billed at $0.20 per additional 1K requests on Pro, $0.10 on Business.
-- Burst protection: short spikes up to 2× plan rps for 60 seconds are allowed.
-- Hard cap toggle available in workspace settings to prevent overage charges.
+- 各套餐的软限制如上所列；超量费用按专业版每额外1000次请求0.20美元，商业版每额外1000次请求0.10美元计费。
+- 突发保护：允许短时间突发至套餐速率限制的2倍，持续60秒。
+- 工作区设置中可切换硬限制以防止超量费用。
 
-### API and SDK
+### API和SDK
 
-- Base URL: `https://api.example.com/v1`
-- Auth: Bearer token via `Authorization: Bearer <token>`.
-- SDKs: JS/TS official; Python in beta.
-- Rate limiting: 429 returned when exceeding plan rps; retry after header is included.
+- 基础URL: `https://api.example.com/v1`
+- 认证: 通过 `Authorization: Bearer <token>` 的Bearer令牌。
+- SDK: 官方JS/TS版本；Python版本为测试版。
+- 速率限制: 超过套餐速率限制时返回429；包含重试后头部信息。
 
-#### Data Retention
+#### 数据保留
 
-- Logs retained 30 days (Free), 90 days (Pro), 365 days (Business), configurable for Enterprise.
-- Opt‑out of logging available on Business and Enterprise.
+- 日志保留时间：免费版30天，专业版90天，商业版365天，企业版可配置。
+- 商业版和企业版可选择退出日志记录。
 
-### Support and SLA
+### 支持和SLA
 
-- Support channels:
-  - Free: community forum only
-  - Pro: email support, 1 business day target response
-  - Business: priority email + chat, 4 business hours target response
-  - Enterprise: dedicated channel, 1 hour target response (business hours) or custom
+- 支持渠道：
+  - 免费版：仅社区论坛
+  - 专业版：邮件支持，1个工作日响应目标
+  - 商业版：优先邮件+聊天，4个工作小时响应目标
+  - 企业版：专属渠道，1小时响应目标（工作时间）或定制
 
-- SLA uptime commitments:
-  - Pro: 99.5% monthly
-  - Business: 99.9% monthly
-  - Enterprise: 99.95% monthly (customizable)
+- SLA正常运行时间承诺：
+  - 专业版：每月99.5%
+  - 商业版：每月99.9%
+  - 企业版：每月99.95%（可定制）
 
-### Security and Compliance
+### 安全和合规
 
-- SOC 2 Type II (Enterprise), SOC 2 Type I (Business+).
-- Data encrypted in transit (TLS 1.2+) and at rest (AES‑256).
-- Regional data residency available for Enterprise (US/EU).
+- SOC 2 Type II（企业版），SOC 2 Type I（商业版及以上）。
+- 数据传输中（TLS 1.2+）和静态时（AES-256）加密。
+- 企业版可选择区域数据驻留（美国/欧盟）。
 
-### Privacy
+### 隐私
 
-- We do not use customer data to train public models.
-- DPA available upon request.
-- Subprocessors list available at `https://example.com/subprocessors`.
+- 我们不会使用客户数据来训练公共模型。
+- 可应要求提供DPA。
+- 子处理器列表可在 `https://example.com/subprocessors` 查看。
 
-### Refunds and Cancellations
+### 退款和取消
 
-- Month‑to‑month plans can be canceled anytime; service continues through the paid period.
-- Refunds considered for service‑affecting incidents breaching SLA (credit on next invoice).
-- Annual plans refundable within 30 days of initial purchase (prorated minus discount benefit).
+- 月付套餐可随时取消；服务将持续到已付费周期结束。
+- 对于违反SLA的服务影响事件可考虑退款（下次发票抵扣信用额）。
+- 年付套餐在首次购买后30天内可退款（按比例扣除折扣收益）。
 
-### Terms Highlights
+### 条款要点
 
-- Acceptable Use Policy prohibits abusive, illegal, or automated account creation.
-- Fair use applies to “unlimited” features; excessive or abusive patterns may be throttled.
-- Customer is responsible for safeguarding API keys.
+- 可接受使用政策禁止滥用、非法或自动账户创建。
+- "无限制"功能适用合理使用原则；过度或滥用模式可能被限制。
+- 客户有责任保护API密钥。
 
-### Feature Matrix (Selected)
+### 功能矩阵（精选）
 
-| Feature | Free | Pro | Business | Enterprise |
+| 功能 | 免费版 | 专业版 | 商业版 | 企业版 |
 |---|---|---|---|---|
-| Custom domains | ✖️ | ✔️ | ✔️ | ✔️ |
-| SSO (SAML/OIDC) | ✖️ | ✖️ | ✔️ | ✔️ |
-| Data residency | ✖️ | ✖️ | ✖️ | ✔️ |
-| Audit logs | ✖️ | ✔️ (30d) | ✔️ (365d) | ✔️ (custom) |
+| 自定义域名 | ✖️ | ✔️ | ✔️ | ✔️ |
+| 单点登录 (SAML/OIDC) | ✖️ | ✖️ | ✔️ | ✔️ |
+| 数据驻留 | ✖️ | ✖️ | ✖️ | ✔️ |
+| 审计日志 | ✖️ | ✔️ (30天) | ✔️ (365天) | ✔️ (定制) |
 
-### Common Q&A
+### 常见问答
 
-- Q: Can I pause my subscription?
-  - A: Yes, Pro/Business can be paused up to 3 months; data remains read‑only.
-- Q: Do sandbox keys have different limits?
-  - A: Sandbox keys are throttled to 10 rps and excluded from metered billing.
-- Q: How do I request deletion of logs?
-  - A: Use the “Purge logs” action in workspace settings or contact support for bulk deletion.
+- 问：我可以暂停订阅吗？
+  - 答：可以，专业版/商业版可暂停最多3个月；数据保持只读状态。
+- 问：沙盒密钥的限制是否不同？
+  - 答：沙盒密钥被限制为10次/秒，不计入计量计费。
+- 问：如何请求删除日志？
+  - 答：在工作区设置中使用"清除日志"操作，或联系支持进行批量删除。
 
-### Internal Notes (Agent‑only)
+### 内部备注（仅客服）
 
-- Upgrades take effect immediately; downgrades apply at next billing cycle.
-- If a customer hits hard cap with critical workload, suggest enabling overage with alerts.
-- For compliance questions, reference the latest security whitepaper (internal drive link).
+- 升级立即生效；降级在下一个计费周期生效。
+- 如果客户在关键工作负载下达到硬限制，建议启用超量警报。
+- 对于合规问题，请参考最新的安全白皮书（内部驱动器链接）。
 
-### Example Responses for KB Lookup Tool
+### 知识库查询工具的示例回复
 
-- Pricing summary: “Pro is $29/mo; Business is $99/mo; 15% off annually.”
-- Refund policy: “Refunds are via service credits when SLA is breached; annual refundable within 30 days.”
-- SLA: “Business 99.9% monthly uptime; Enterprise 99.95% with customization.”
-- Data policy: “No training on customer data; data retention configurable on higher tiers.”
-
-
+- 定价摘要："专业版为每月29美元；商业版为每月99美元；年付可享受15%折扣。"
+- 退款政策："当SLA被违反时通过服务信用额退款；年付套餐在30天内可退款。"
+- SLA："商业版每月99.9%正常运行时间；企业版99.95%可定制。"
+- 数据政策："不使用客户数据进行训练；高级套餐可配置数据保留时间。"

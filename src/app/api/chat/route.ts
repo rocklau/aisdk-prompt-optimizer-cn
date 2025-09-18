@@ -3,6 +3,7 @@ import {
   lookupInternalKnowledgeBase,
   routeToHumanAgent,
 } from "@/lib/tools";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import {
   convertToModelMessages,
   stepCountIs,
@@ -12,6 +13,7 @@ import {
 import "dotenv/config";
 import fs from "fs/promises";
 import path from "path";
+import { createAIProvider } from "@/lib/provider";
 
 // Load optimized model configuration from MiPRO results
 async function loadOptimizedConfig(version?: string): Promise<{
@@ -73,9 +75,9 @@ export async function POST(req: Request) {
   const teachingSystemPrompt =
     url.searchParams.get("teachingPrompt") || undefined;
 
-  console.log("🎓 Teaching mode:", teachingSystemPrompt ? "ACTIVE" : "OFF");
+  console.log("🎓 教学模式:", teachingSystemPrompt ? "启用" : "关闭");
   if (teachingSystemPrompt) {
-    console.log("🎓 Teaching prompt:", teachingSystemPrompt);
+    console.log("🎓 教学提示:", teachingSystemPrompt);
   }
 
   // Read dynamic system prompt from data/prompt.md (optimized by MiPRO) unless teaching override is present
@@ -126,13 +128,14 @@ export async function POST(req: Request) {
     ? baseSystemPrompt + (optimizedConfig.fewShotExamples || "")
     : optimizedConfig.fewShotExamples;
 
-  console.log(`🎯 Using optimized temperature: ${optimizedConfig.temperature}`);
+  console.log(`🎯 使用优化温度: ${optimizedConfig.temperature}`);
   console.log(
-    `📚 Including ${optimizedConfig.demos?.length || 0} optimized demos`
+    `📚 包含 ${optimizedConfig.demos?.length || 0} 个优化示例`
   );
 
+      const { provider, modelName } = createAIProvider();
   const result = streamText({
-    model: "openai/gpt-4.1-mini",
+    model: provider(modelName),
     tools: {
       humanAgentWaitTime,
       routeToHumanAgent,

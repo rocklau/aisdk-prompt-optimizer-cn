@@ -46,7 +46,7 @@ export async function GET() {
     });
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Failed to list versions";
+      err instanceof Error ? err.message : "列出版本失败";
     return new Response(JSON.stringify({ versions: [], error: message }), {
       status: 200,
       headers: { "Content-Type": "application/json" },

@@ -14,11 +14,12 @@ app = Flask(__name__)
 # Configure DSPy once at import time
 # to avoid per-request reconfiguration errors
 OPENAI_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_APIKEY")
-MAIN_MODEL = os.getenv("GEPA_MODEL", "openai/gpt-4.1-mini")
-REFLECTION_MODEL = os.getenv("GEPA_REFLECTION_MODEL", "openai/gpt-4.1")
+MAIN_MODEL = os.getenv("GEPA_MODEL", "gpt-4.1-mini")
+REFLECTION_MODEL = os.getenv("GEPA_REFLECTION_MODEL", "gpt-4.1-nano")
+AI_PROVIDER_BASE_URL = os.getenv("AI_PROVIDER_BASE_URL", "https://api.openai.com/v1")
 
 if OPENAI_KEY:
-    dspy.configure(lm=dspy.LM(model=MAIN_MODEL, api_key=OPENAI_KEY))
+    dspy.configure(lm=dspy.LM(model=MAIN_MODEL, api_key=OPENAI_KEY, api_base=AI_PROVIDER_BASE_URL))
 else:
     dspy.configure(lm=dspy.LM(model=MAIN_MODEL))
 
@@ -29,42 +30,41 @@ dspy.configure_cache(
 
 # Build reflection LM once
 REFLECTION_LM = (
-    dspy.LM(model=REFLECTION_MODEL, api_key=OPENAI_KEY)
+    dspy.LM(model=REFLECTION_MODEL, api_key=OPENAI_KEY, api_base=AI_PROVIDER_BASE_URL)
     if OPENAI_KEY
-    else dspy.LM(model=REFLECTION_MODEL)
+    else dspy.LM(model=REFLECTION_MODEL, api_key=OPENAI_KEY, api_base=AI_PROVIDER_BASE_URL)
 )
 
 
 def build_signature() -> dspy.Signature:
     class NextTurn(dspy.Signature):
-        """Given the conversation so far, produce the next assistant message.
+        """根据目前的对话，生成下一条助手消息。
 
-        Optimize for clear, helpful continuation that improves the chat
-        trajectory. Learn from ideal examples; mirror their structure, tone,
-        and tool usage.
+        优化清晰、有帮助的延续，以改善聊天轨迹。
+        从理想示例中学习；模仿它们的结构、语调和工具使用。
         """
         conversationContext = dspy.InputField(
-            desc="Conversation so far (user and assistant turns)",
-            prefix="Conversation so far:"
+            desc="到目前为止的对话（用户和助手的轮次）",
+            prefix="到目前为止的对话："
         )
         expectedTurnResponse = dspy.OutputField(
             desc=(
-                "Next assistant message that advances the dialogue "
-                "(with any tool usage)"
+                "推进对话的下一条助手消息"
+                "（包含任何工具使用）"
             ),
-            prefix="Next assistant message:"
+            prefix="下一条助手消息："
         )
 
     return NextTurn
 
 
 def build_program() -> dspy.Module:
-    # Simple Predict module over the signature
+    # 在签名上的简单预测模块
     return dspy.Predict(build_signature())
 
 
 class ScoreFeedback(dict):
-    # Dict-like with attribute access for compatibility with GEPA's logs
+    # 类似字典的属性访问，以兼容 GEPA 的日志
     def __getattr__(self, name: str) -> Any:  # fb.score
         try:
             return self[name]
@@ -73,8 +73,8 @@ class ScoreFeedback(dict):
 
 
 def build_metric():
-    # GEPA metric must accept (gold, pred, trace, pred_name, pred_trace)
-    # Return a float score in [0,1] or a dict {score, feedback}
+    # GEPA 指标必须接受 (gold, pred, trace, pred_name, pred_trace)
+    # 返回 [0,1] 范围内的浮点数或字典 {score, feedback}
     def metric(
         gold: dspy.Example,
         pred: dspy.Prediction,
@@ -84,19 +84,19 @@ def build_metric():
     ) -> Any:
         gold_text = getattr(gold, "expectedTurnResponse", "") or ""
         pred_text = getattr(pred, "expectedTurnResponse", "") or ""
-        # crude token overlap
+        # 粗略的标记重叠
         g = set(gold_text.lower().split()) if gold_text else set()
         p = set(pred_text.lower().split()) if pred_text else set()
         overlap = len(g & p) if g else 0
         score = (overlap / len(g)) if g else 0.0
-        # For general evaluation calls, always return a float
-        # (even on missing text)
+        # 对于一般评估调用，总是返回浮点数
+        # （即使在缺少文本的情况下）
         if pred_name is None and pred_trace is None:
             return float(score)
-        # For reflection calls, return rich feedback
+        # 对于反思调用，返回丰富的反馈
         feedback = (
-            f"Overlap tokens: {overlap}/{len(g) if g else 0} "
-            f"for {pred_name or 'program'}."
+            f"重叠标记：{overlap}/{len(g) if g else 0} "
+            f"对于 {pred_name or 'program'}。"
         )
         return ScoreFeedback(
             score=float(score),
@@ -107,10 +107,10 @@ def build_metric():
 
 
 def _extract_instruction_text(compiled: Any) -> str | None:
-    """Best-effort extraction of the optimized instruction/prompt.
+    """尽力提取优化的指令/提示。
 
-    Tries common locations on the compiled module and, if present,
-    on the best candidate from detailed_results.
+    尝试在编译模块的常见位置查找，
+    如果存在，则在 detailed_results 的最佳候选者中查找。
     """
     def _first_text(*candidates: Any) -> str | None:
         for c in candidates:
@@ -118,7 +118,7 @@ def _extract_instruction_text(compiled: Any) -> str | None:
                 return c.strip()
         return None
 
-    # Direct locations
+    # 直接位置
     instr = _first_text(
         getattr(compiled, "instruction", None),
         getattr(compiled, "instructions", None),
@@ -126,7 +126,7 @@ def _extract_instruction_text(compiled: Any) -> str | None:
     if instr:
         return instr
 
-    # Common child holders
+    # 常见的子持有者
     for child_name in ("predict", "predictor"):
         child = getattr(compiled, child_name, None)
         if child is None:
@@ -145,7 +145,7 @@ def _extract_instruction_text(compiled: Any) -> str | None:
         if instr:
             return instr
 
-    # Signature on the compiled
+    # 编译后的签名
     sig = getattr(compiled, "signature", None)
     instr = _first_text(
         getattr(sig, "instructions", None),
@@ -154,7 +154,7 @@ def _extract_instruction_text(compiled: Any) -> str | None:
     if instr:
         return instr
 
-    # Fallback to detailed results best candidate
+    # 回退到详细结果的最佳候选者
     results = getattr(compiled, "detailed_results", None)
     best = getattr(results, "best_candidate", None)
     if best is not None:
@@ -189,13 +189,13 @@ def optimize() -> Any:
     max_metric_calls: int = int(
         payload.get("maxMetricCalls", 5)
     )
-    auto_mode = payload.get("auto")  # off|light|medium|heavy
+    auto_mode = payload.get("auto")  # 关闭|轻度|中度|重度
     candidate_selection = payload.get("candidateSelectionStrategy")
     reflection_minibatch_size = payload.get("reflectionMinibatchSize")
     use_merge = payload.get("useMerge")
     num_threads = payload.get("numThreads")
 
-    # LMs are already configured at import-time; avoid reconfiguration here
+    # LMs 在导入时已配置；避免在此处重新配置
 
     trainset: List[dspy.Example] = []
     for ex in examples_input:
@@ -209,7 +209,7 @@ def optimize() -> Any:
     program = build_program()
     metric = build_metric()
 
-    # Run GEPA
+    # 运行 GEPA
     start = time.time()
     gepa = GEPA(
         metric=metric,
@@ -217,7 +217,7 @@ def optimize() -> Any:
         track_stats=True,
         max_metric_calls=max_metric_calls,
         add_format_failure_as_feedback=True,
-        # Map Basic settings if provided
+        # 如果提供，则映射基本设置
         auto=auto_mode if auto_mode in (None, "light", "medium", "heavy") else None,
         candidate_selection_strategy=(
             candidate_selection if candidate_selection in (None, "pareto", "current_best") else "pareto"
@@ -234,7 +234,7 @@ def optimize() -> Any:
         valset=trainset,
     )
 
-    # Extract results
+    # 提取结果
     best_prog = getattr(compiled, "detailed_results", None)
     best_score = None
     if best_prog is not None:

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+"use client";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
@@ -8,20 +10,19 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-sm mb-6">
-            Fully Open Source • Powered by AISDK Prompt Optimizer
+            完全开源 • 由 AISDK 提示优化器驱动
           </div>
           <h1 className="text-5xl font-bold text-foreground mb-6">
-            AISDK Prompt Optimizer
+            AISDK 提示优化器
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Transform your AI interactions with intelligent prompt optimization.
-            Teach your AI, collect ideal samples, and generate optimized prompts
-            using the powerful AISDK Prompt Optimizer.
+            通过智能提示优化改变您的 AI 交互体验。
+            教学您的 AI，收集理想样本，并使用强大的 AISDK 提示优化器生成优化的提示。
           </p>
           <div className="flex justify-center">
             <Link href="/chat">
               <Button size="lg" className="text-lg px-8 py-3">
-                Start Optimizing Prompts →
+                开始优化提示 →
               </Button>
             </Link>
           </div>
@@ -46,11 +47,10 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold mb-2 text-foreground">
-              Teach Your AI
+              教学您的 AI
             </h3>
             <p className="text-muted-foreground">
-              Guide your AI through interactive conversations and demonstrate
-              the ideal responses you want to achieve.
+              通过交互式对话指导您的 AI，并演示您想要实现的理想响应。
             </p>
           </div>
 
@@ -71,11 +71,10 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold mb-2 text-foreground">
-              Collect Ideal Samples
+              收集理想样本
             </h3>
             <p className="text-muted-foreground">
-              Gather high-quality conversation examples that represent the
-              perfect AI behavior for your use case.
+              收集高质量的对话示例，这些示例代表了您用例的完美 AI 行为。
             </p>
           </div>
 
@@ -96,11 +95,10 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold mb-2 text-foreground">
-              AISDK Prompt Optimizer
+              AISDK 提示优化器
             </h3>
             <p className="text-muted-foreground">
-              Leverage advanced optimization algorithms to automatically
-              generate and refine prompt candidates.
+              利用先进的优化算法自动生 成和优化提示候选项。
             </p>
           </div>
         </div>
@@ -108,7 +106,7 @@ export default function Home() {
         {/* How It Works */}
         <div className="border rounded-lg p-8 mb-16">
           <h2 className="text-3xl font-bold text-center mb-8 text-foreground">
-            How It Works
+            工作原理
           </h2>
           <div className="grid md:grid-cols-4 gap-6">
             <div className="text-center">
@@ -116,11 +114,10 @@ export default function Home() {
                 1
               </div>
               <h4 className="font-semibold mb-2 text-foreground">
-                Start Conversation
+                开始对话
               </h4>
               <p className="text-sm text-muted-foreground">
-                Begin chatting with the AI and teach it desired behaviors
-                through examples
+                开始与 AI 聊天，并通过示例教学期望的行为
               </p>
             </div>
             <div className="text-center">
@@ -128,10 +125,10 @@ export default function Home() {
                 2
               </div>
               <h4 className="font-semibold mb-2 text-foreground">
-                Mark Examples
+                标记示例
               </h4>
               <p className="text-sm text-muted-foreground">
-                Save ideal conversation samples that represent perfect responses
+                保存代表完美响应的理想对话样本
               </p>
             </div>
             <div className="text-center">
@@ -139,11 +136,10 @@ export default function Home() {
                 3
               </div>
               <h4 className="font-semibold mb-2 text-foreground">
-                Run Optimization
+                运行优化
               </h4>
               <p className="text-sm text-muted-foreground">
-                Let AISDK Prompt Optimizer analyze patterns and generate
-                optimized prompts
+                让 AISDK 提示优化器分析模式并生成优化的提示
               </p>
             </div>
             <div className="text-center">
@@ -151,10 +147,10 @@ export default function Home() {
                 4
               </div>
               <h4 className="font-semibold mb-2 text-foreground">
-                Deploy Results
+                部署结果
               </h4>
               <p className="text-sm text-muted-foreground">
-                Use the optimized prompts in your applications
+                在您的应用程序中使用优化的提示
               </p>
             </div>
           </div>
@@ -174,8 +170,7 @@ export default function Home() {
                 </svg>
               </div>
               <blockquote className="text-xl font-medium text-foreground mb-4">
-                &quot;Both DSPy and (especially) GEPA are currently severely
-                under hyped in the AI context engineering world&quot;
+                &quot;DSPy 和 (特别是) GEPA 目前在 AI 上下文工程领域被严重低估&quot;
               </blockquote>
               <div className="flex items-center justify-center space-x-2">
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
@@ -197,7 +192,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="text-primary hover:text-primary/80 text-sm transition-colors"
                 >
-                  View on X →
+                  在 X 上查看 →
                 </a>
               </div>
             </div>
@@ -207,7 +202,7 @@ export default function Home() {
         {/* Team Attribution */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center space-x-2 text-muted-foreground mb-4">
-            <span>Built with ❤️ by the team that created</span>
+            <span>由创建以下项目的团队 ❤️ 构建</span>
           </div>
           <div className="flex justify-center items-center space-x-3">
             <a
@@ -218,7 +213,7 @@ export default function Home() {
             >
               Langtrace AI
             </a>
-            <span className="text-muted-foreground">and</span>
+            <span className="text-muted-foreground">和</span>
             <a
               href="https://heyzest.ai"
               target="_blank"
@@ -230,7 +225,7 @@ export default function Home() {
           </div>
           <div className="mt-4">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-sm">
-              Apache 2.0 Licensed • Fully Open Source
+              Apache 2.0 许可证 • 完全开源
             </div>
           </div>
         </div>
@@ -238,40 +233,40 @@ export default function Home() {
         {/* Local Development Setup */}
         <div className="border rounded-lg p-8">
           <h2 className="text-2xl font-bold mb-6 text-foreground">
-            🚀 Run Locally
+            🚀 本地运行
           </h2>
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold mb-2 text-foreground">
-                Prerequisites
+                前提条件
               </h3>
               <p className="text-muted-foreground mb-2">
-                Make sure you have Node.js and uv installed on your system.
+                确保您的系统已安装 Node.js 和 uv。
               </p>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold mb-2 text-foreground">
-                Quick Start
+                快速开始
               </h3>
               <div className="bg-muted rounded-lg p-4 overflow-x-auto">
                 <pre className="text-foreground text-sm">
-                  {`# Clone the repository
+                  {`# 克隆仓库
 git clone https://github.com/Scale3-Labs/aisdk-prompt-optimizer
 cd aisdk-prompt-optimizer
 
-# Install dependencies
+# 安装依赖
 npm install
 
-# Start both services (recommended)
+# 启动所有服务（推荐）
 npm run dev:all
 
-# Or start them separately:
-# Terminal 1: Start the Python optimizer
+# 或者分别启动：
+# 终端 1: 启动 Python 优化器
 cd python_optimizer
 uv run app.py
 
-# Terminal 2: Start the web app
+# 终端 2: 启动 Web 应用
 npm run dev`}
                 </pre>
               </div>
@@ -279,36 +274,35 @@ npm run dev`}
 
             <div>
               <h3 className="text-lg font-semibold mb-2 text-foreground">
-                Available Scripts
+                可用脚本
               </h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <code className="bg-muted px-2 py-1 rounded text-sm">
                     npm run dev
                   </code>{" "}
-                  - Start the Next.js development server
+                  - 启动 Next.js 开发服务器
                 </li>
                 <li>
                   <code className="bg-muted px-2 py-1 rounded text-sm">
                     npm run dev:py
                   </code>{" "}
-                  - Start the Python optimizer server
+                  - 启动 Python 优化器服务器
                 </li>
                 <li>
                   <code className="bg-muted px-2 py-1 rounded text-sm">
                     npm run dev:all
                   </code>{" "}
-                  - Start both services concurrently
+                  - 同时启动所有服务
                 </li>
               </ul>
             </div>
 
             <div className="bg-muted border rounded-lg p-4">
               <p className="text-muted-foreground text-sm">
-                <strong>💡 Tip:</strong> The web app runs on{" "}
-                <code>http://localhost:3000</code> and the Python optimizer on{" "}
-                <code>http://localhost:8000</code>. Both services need to be
-                running for the optimization features to work.
+                <strong>💡 提示:</strong> Web 应用运行在{" "}
+                <code>http://localhost:3000</code>，Python 优化器运行在{" "}
+                <code>http://localhost:8000</code>。两个服务都需要运行才能使优化功能正常工作。
               </p>
             </div>
           </div>

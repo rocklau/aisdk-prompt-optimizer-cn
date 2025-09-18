@@ -224,7 +224,7 @@ export default function Chat() {
   useEffect(() => {
     if (messages.length) {
       const last = messages[messages.length - 1];
-      console.log("Last message parts:", last.parts);
+      console.log("最后消息部分:", last.parts);
     }
   }, [messages]);
 
@@ -326,24 +326,24 @@ export default function Chat() {
     <div className="font-sans mx-auto max-w-6xl p-6 flex gap-6 min-h-[100svh]">
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <div className="text-xl font-medium">AI Chat</div>
+          <div className="text-xl font-medium">AI 聊天</div>
           <div className="flex items-center gap-2">
             <Button
               variant={isTeachingMode ? "default" : "outline"}
               size="sm"
               onClick={() => setIsTeachingMode(!isTeachingMode)}
             >
-              {isTeachingMode ? "Exit Teaching" : "Teaching Mode"}
+              {isTeachingMode ? "退出教学" : "教学模式"}
             </Button>
             {hasPendingSession && (
               <div className="flex items-center gap-2">
                 <div className="text-xs text-neutral-600">
-                  Pending session: {pendingPairs.length} pair
+                  待处理会话: {pendingPairs.length} 对话
                   {pendingPairs.length === 1 ? "" : "s"}
                   {pendingPairComplete
-                    ? " + 1 in progress"
+                    ? " + 1 进行中"
                     : pendingQuestion
-                    ? " (select an AI answer)"
+                    ? " (选择一个 AI 答案)"
                     : ""}
                 </div>
                 <Button
@@ -351,7 +351,7 @@ export default function Chat() {
                   onClick={() => saveSession()}
                   disabled={savingSample}
                 >
-                  {savingSample ? "Saving…" : "Save Sample"}
+                  {savingSample ? "保存中…" : "保存样本"}
                 </Button>
                 <Button
                   size="sm"
@@ -363,7 +363,7 @@ export default function Chat() {
                     setPendingPairs([]);
                   }}
                 >
-                  Cancel
+                  取消
                 </Button>
               </div>
             )}
@@ -371,23 +371,23 @@ export default function Chat() {
               variant="ghost"
               size="sm"
               onClick={() => setMessages([])}
-              aria-label="Clear chat"
+              aria-label="清除聊天"
             >
-              Clear
+              清除
             </Button>
           </div>
         </div>
 
         {isTeachingMode && (
           <div className="border rounded-md p-4 bg-blue-50">
-            <div className="font-medium mb-3">Teaching Mode</div>
+            <div className="font-medium mb-3">教学模式</div>
             <div className="space-y-3">
               <div>
                 <label className="text-sm font-medium mb-1 block">
-                  Scenario + Expected Behavior
+                  场景 + 期望行为
                 </label>
                 <Textarea
-                  placeholder="Describe the scenario and the expected behavior in one prompt"
+                  placeholder="在一个提示中描述场景和期望行为"
                   value={teachingPrompt}
                   onChange={(e) => setTeachingPrompt(e.target.value)}
                 />
@@ -401,7 +401,7 @@ export default function Chat() {
             m.role === "system" ? null : (
               <div key={m.id} className="text-sm relative group">
                 <Button
-                  aria-label="Add to session sample"
+                  aria-label="添加到会话样本"
                   variant="outline"
                   size="icon"
                   className="absolute -right-3 -top-3 opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8 rounded-full shadow"
@@ -410,7 +410,7 @@ export default function Chat() {
                   <Plus className="w-4 h-4" />
                 </Button>
                 <span className="font-semibold mr-2">
-                  {m.role === "user" ? "You" : "AI"}:
+                  {m.role === "user" ? "您" : "AI"}:
                 </span>
                 {(m.parts || []).map((part, index) => {
                   if (part.type === "text") {
@@ -489,7 +489,7 @@ export default function Chat() {
         {hasPendingSession && sessionPreviewPairs.length > 0 && (
           <div className="border rounded-md p-3 text-xs bg-neutral-50">
             <div className="font-medium mb-2">
-              Pending session preview ({sessionPreviewPairs.length} pair
+              待处理会话预览 ({sessionPreviewPairs.length} 对话
               {sessionPreviewPairs.length === 1 ? "" : "s"})
             </div>
             {sessionPreviewPairs.map((p, i) => (
@@ -576,23 +576,23 @@ export default function Chat() {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
+            placeholder="输入您的消息..."
           />
           <Button type="submit" disabled={isSending}>
-            {isSending ? "Sending..." : "Send"}
+            {isSending ? "发送中..." : "发送"}
           </Button>
         </form>
       </div>
 
       <aside className="w-[320px] shrink-0 border rounded-md p-4 h-fit">
         <div className="flex items-center justify-between mb-2">
-          <div className="font-medium">Samples</div>
+          <div className="font-medium">样本</div>
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
               aria-label={
-                isSamplesCollapsed ? "Expand samples" : "Collapse samples"
+                isSamplesCollapsed ? "展开样本" : "收起样本"
               }
               onClick={() => setIsSamplesCollapsed((v) => !v)}
             >
@@ -604,7 +604,7 @@ export default function Chat() {
               onClick={loadSamples}
               disabled={isLoadingSamples}
             >
-              {isLoadingSamples ? "Loading…" : "Refresh"}
+              {isLoadingSamples ? "加载中…" : "刷新"}
             </Button>
           </div>
         </div>
@@ -612,7 +612,7 @@ export default function Chat() {
           <>
             <div className="space-y-2">
               {samples.samples.length === 0 ? (
-                <div className="text-xs text-neutral-500">No samples yet.</div>
+                <div className="text-xs text-neutral-500">暂无样本。</div>
               ) : (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -623,7 +623,7 @@ export default function Chat() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        aria-label="Previous sample"
+                        aria-label="上一样本"
                         onClick={() =>
                           setSampleIndex((i) => Math.max(0, i - 1))
                         }
@@ -634,7 +634,7 @@ export default function Chat() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        aria-label="Next sample"
+                        aria-label="下一样本"
                         onClick={() =>
                           setSampleIndex((i) =>
                             Math.min(samples.samples.length - 1, i + 1)
@@ -648,13 +648,13 @@ export default function Chat() {
                   </div>
                   <div className="border rounded p-2 text-xs max-h-80 overflow-y-auto">
                     <div className="mb-1 text-neutral-500">
-                      Session ID:{" "}
+                      会话 ID:{" "}
                       <span className="text-neutral-700">
                         {samples.samples[sampleIndex]?.id}
                       </span>
                     </div>
                     <div className="mb-2 text-neutral-500">
-                      Created:{" "}
+                      创建时间:{" "}
                       <span className="text-neutral-700">
                         {samples.samples[sampleIndex]?.createdAt}
                       </span>
@@ -693,7 +693,7 @@ export default function Chat() {
                         size="sm"
                         onClick={() => setShowSampleJson((v) => !v)}
                       >
-                        {showSampleJson ? "Hide JSON" : "Show JSON"}
+                        {showSampleJson ? "隐藏 JSON" : "显示 JSON"}
                       </Button>
                     </div>
                     {showSampleJson && (
@@ -710,17 +710,17 @@ export default function Chat() {
 
         <div className="mt-4 pt-4 border-t">
           <div className="flex items-center justify-between mb-2">
-            <div className="font-medium">Optimizer Settings</div>
+            <div className="font-medium">优化器设置</div>
           </div>
           <div className="space-y-3 text-sm">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs text-neutral-600">Mode (auto)</label>
+                <label className="text-xs text-neutral-600">模式 (自动)</label>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-6 w-6"
-                  title="Preset controlling search/budget aggressiveness."
+                  title="预设控制搜索/预算的激进程度。"
                 >
                   <Info className="h-3.5 w-3.5 text-neutral-500" />
                 </Button>
@@ -728,7 +728,7 @@ export default function Chat() {
               <select
                 className="w-full border rounded-md h-9 px-2 text-sm bg-white"
                 value={optimizerSettings.auto}
-                aria-label="Auto mode"
+                aria-label="自动模式"
                 onChange={(e) =>
                   setOptimizerSettings((s) => ({
                     ...s,
@@ -737,22 +737,22 @@ export default function Chat() {
                   }))
                 }
               >
-                <option value="off">off</option>
-                <option value="light">light</option>
-                <option value="medium">medium</option>
-                <option value="heavy">heavy</option>
+                <option value="off">关闭</option>
+                <option value="light">轻度</option>
+                <option value="medium">中度</option>
+                <option value="heavy">重度</option>
               </select>
               <div className="mt-1 text-[11px] text-neutral-500">
-                Choose overall search intensity.
+                选择整体搜索强度。
               </div>
             </div>
             <div>
               <label className="text-xs text-neutral-600 block mb-1">
-                Max metric calls
+                最大指标调用次数
               </label>
               <Input
                 type="number"
-                placeholder="e.g., 50"
+                placeholder="例如，50"
                 value={optimizerSettings.maxMetricCalls ?? ""}
                 onChange={(e) =>
                   setOptimizerSettings((s) => ({
@@ -768,13 +768,13 @@ export default function Chat() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-xs text-neutral-600">
-                  Candidate selection
+                  候选选择
                 </label>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-6 w-6"
-                  title="Pareto keeps diverse frontier; current_best exploits the top candidate."
+                  title="Pareto 保持多样化前沿；current_best 利用最佳候选者。"
                 >
                   <Info className="h-3.5 w-3.5 text-neutral-500" />
                 </Button>
@@ -782,7 +782,7 @@ export default function Chat() {
               <select
                 className="w-full border rounded-md h-9 px-2 text-sm bg-white"
                 value={optimizerSettings.candidateSelectionStrategy}
-                aria-label="Candidate selection strategy"
+                aria-label="候选选择策略"
                 onChange={(e) =>
                   setOptimizerSettings((s) => ({
                     ...s,
@@ -797,26 +797,26 @@ export default function Chat() {
                 <option value="current_best">current_best</option>
               </select>
               <div className="mt-1 text-[11px] text-neutral-500">
-                Controls exploration vs. exploitation.
+                控制探索与利用。
               </div>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-xs text-neutral-600">
-                  Reflection minibatch size
+                  反思小批量大小
                 </label>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-6 w-6"
-                  title="Batch size for each reflection rollout."
+                  title="每次反思展开的批量大小。"
                 >
                   <Info className="h-3.5 w-3.5 text-neutral-500" />
                 </Button>
               </div>
               <Input
                 type="number"
-                placeholder="e.g., 3"
+                placeholder="例如，3"
                 value={optimizerSettings.reflectionMinibatchSize}
                 onChange={(e) =>
                   setOptimizerSettings((s) => ({
@@ -826,17 +826,17 @@ export default function Chat() {
                 }
               />
               <div className="mt-1 text-[11px] text-neutral-500">
-                Higher = more context per mutation, slower.
+                更高 = 每次变异更多上下文，更慢。
               </div>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs text-neutral-600">Use merge</label>
+                <label className="text-xs text-neutral-600">使用合并</label>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-6 w-6"
-                  title="System-aware merge of strong submodules."
+                  title="系统感知的强子模块合并。"
                 >
                   <Info className="h-3.5 w-3.5 text-neutral-500" />
                 </Button>
@@ -849,7 +849,7 @@ export default function Chat() {
                     setOptimizerSettings((s) => ({ ...s, useMerge: true }))
                   }
                 >
-                  On
+                  开启
                 </Button>
                 <Button
                   variant={!optimizerSettings.useMerge ? "default" : "outline"}
@@ -858,28 +858,28 @@ export default function Chat() {
                     setOptimizerSettings((s) => ({ ...s, useMerge: false }))
                   }
                 >
-                  Off
+                  关闭
                 </Button>
               </div>
               <div className="mt-1 text-[11px] text-neutral-500">
-                Try combining best parts across candidates.
+                尝试组合候选者之间的最佳部分。
               </div>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs text-neutral-600">Num threads</label>
+                <label className="text-xs text-neutral-600">线程数</label>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-6 w-6"
-                  title="Parallel candidate evaluations; leave empty for auto."
+                  title="并行候选评估；留空为自动。"
                 >
                   <Info className="h-3.5 w-3.5 text-neutral-500" />
                 </Button>
               </div>
               <Input
                 type="number"
-                placeholder="auto"
+                placeholder="自动"
                 value={optimizerSettings.numThreads ?? ""}
                 onChange={(e) =>
                   setOptimizerSettings((s) => ({
@@ -892,13 +892,13 @@ export default function Chat() {
                 }
               />
               <div className="mt-1 text-[11px] text-neutral-500">
-                Increase to use more CPU cores if available.
+                增加以使用更多 CPU 核心（如果可用）。
               </div>
             </div>
           </div>
 
           <div className="mt-4 flex items-center justify-between">
-            <div className="text-sm text-neutral-700">Optimization</div>
+            <div className="text-sm text-neutral-700">优化</div>
             <Button
               size="sm"
               onClick={async () => {
@@ -926,7 +926,7 @@ export default function Chat() {
               }}
               disabled={isOptimizing}
             >
-              {isOptimizing ? "Optimizing…" : "Optimize Prompt"}
+              {isOptimizing ? "优化中…" : "优化提示"}
             </Button>
           </div>
 
@@ -936,52 +936,52 @@ export default function Chat() {
                 {typeof optStats.bestScore !== "undefined" &&
                 optStats.bestScore !== null ? (
                   <div>
-                    <span className="text-neutral-500">Best score:</span>{" "}
+                    <span className="text-neutral-500">最佳分数:</span>{" "}
                     <span>{(optStats.bestScore * 100).toFixed(1)}%</span>
                   </div>
                 ) : null}
                 {typeof optStats.totalRounds !== "undefined" &&
                 optStats.totalRounds !== null ? (
                   <div>
-                    <span className="text-neutral-500">Rounds:</span>{" "}
+                    <span className="text-neutral-500">轮次:</span>{" "}
                     <span>{optStats.totalRounds}</span>
                   </div>
                 ) : null}
                 {typeof optStats.converged !== "undefined" &&
                 optStats.converged !== null ? (
                   <div>
-                    <span className="text-neutral-500">Converged:</span>{" "}
-                    <span>{optStats.converged ? "Yes" : "No"}</span>
+                    <span className="text-neutral-500">收敛:</span>{" "}
+                    <span>{optStats.converged ? "是" : "否"}</span>
                   </div>
                 ) : null}
                 {optStats.optimizerType ? (
                   <div>
-                    <span className="text-neutral-500">Optimizer:</span>{" "}
+                    <span className="text-neutral-500">优化器:</span>{" "}
                     <span>{optStats.optimizerType}</span>
                   </div>
                 ) : null}
                 {typeof optStats.optimizationTimeMs !== "undefined" &&
                 optStats.optimizationTimeMs !== null ? (
                   <div>
-                    <span className="text-neutral-500">Time:</span>{" "}
+                    <span className="text-neutral-500">时间:</span>{" "}
                     <span>{Math.round(optStats.optimizationTimeMs)} ms</span>
                   </div>
                 ) : null}
                 {optStats.usedSamples ? (
                   <div>
-                    <span className="text-neutral-500">Samples used:</span>{" "}
-                    <span>{optStats.usedSamples.total} samples</span>
+                    <span className="text-neutral-500">使用样本:</span>{" "}
+                    <span>{optStats.usedSamples.total} 样本</span>
                   </div>
                 ) : null}
                 {optStats.updatedAt ? (
                   <div>
-                    <span className="text-neutral-500">Updated:</span>{" "}
+                    <span className="text-neutral-500">更新时间:</span>{" "}
                     <span>{optStats.updatedAt}</span>
                   </div>
                 ) : null}
               </div>
             ) : (
-              <div className="text-neutral-500">No optimization run yet.</div>
+              <div className="text-neutral-500">尚未运行优化。</div>
             )}
           </div>
         </div>
@@ -990,7 +990,7 @@ export default function Chat() {
       {/* Prompt bar moved to a separate right-side bar */}
       <aside className="w-[320px] shrink-0 border rounded-md p-4 h-fit">
         <div className="flex items-center justify-between mb-2">
-          <div className="font-medium">Prompt</div>
+          <div className="font-medium">提示</div>
           <Button
             variant="ghost"
             size="sm"
@@ -1012,18 +1012,18 @@ export default function Chat() {
             }}
             disabled={isLoadingPrompt}
           >
-            {isLoadingPrompt ? "Loading…" : "Refresh"}
+            {isLoadingPrompt ? "加载中…" : "刷新"}
           </Button>
         </div>
         {/* Versions navigator */}
         <div className="mb-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-neutral-500">Prompt Versions</span>
+            <span className="text-xs text-neutral-500">提示版本</span>
             <div className="flex items-center gap-1">
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Previous version"
+                aria-label="上一版本"
                 onClick={async () => {
                   setVersionIndex((i) => Math.max(0, i - 1));
                   try {
@@ -1053,7 +1053,7 @@ export default function Chat() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Next version"
+                aria-label="下一版本"
                 onClick={async () => {
                   setVersionIndex((i) => {
                     const total = 1 + (versions?.versions.length || 0);
@@ -1092,15 +1092,15 @@ export default function Chat() {
           </div>
           <div className="text-[11px] text-neutral-500">
             {isLoadingVersions
-              ? "Loading versions…"
+              ? "加载版本中…"
               : (() => {
                   const total = 1 + (versions?.versions.length || 0);
                   if (!versions || total === 1) {
-                    return "1 of 1 — Current";
+                    return "1 of 1 — 当前";
                   }
                   const label =
                     versionIndex === 0
-                      ? "Current"
+                      ? "当前"
                       : versions.versions[versionIndex - 1]?.timestamp ||
                         versions.versions[versionIndex - 1]?.id;
                   return `${versionIndex + 1} of ${total} — ${label}`;
@@ -1110,7 +1110,7 @@ export default function Chat() {
         {prompt && isCurrentPromptShown ? (
           <div className="mb-1">
             <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-1.5 py-0.5">
-              Current
+              当前
             </span>
           </div>
         ) : null}
@@ -1119,7 +1119,7 @@ export default function Chat() {
             {prompt}
           </pre>
         ) : (
-          <div className="text-xs text-neutral-500">No prompt configured.</div>
+          <div className="text-xs text-neutral-500">未配置提示。</div>
         )}
       </aside>
     </div>
